@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
+                android:background="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@color/appBarColor"
+            app:title=""
+            app:titleTextColor="@android:color/white"
+            android:theme="@style/AppTheme.Launcher"
+            android:elevation="4dp"
+            tools:targetApi="lollipop">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LAUNCHES"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center"
+                android:id="@+id/toolbar_title" />
+    </androidx.appcompat.widget.Toolbar>
+    <fragment
+            android:id="@+id/my_nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            app:navGraph="@navigation/navigation_graph"
+            app:defaultNavHost ="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+</RelativeLayout>
