@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Database
+import com.bumptech.glide.Glide
 import com.example.githubproject.adapters.LaunchesAdapter
 import com.example.githubproject.base.BaseFragment
 import com.example.githubproject.model.dao.DatabaseManager
@@ -27,15 +28,17 @@ class LaunchesFragment : BaseFragment() {
         viewModel.getData().observeForever(androidx.lifecycle.Observer {
 
             Log.i("MyLogger","Failed")
-            manager.getLaunchesDao().insert(it)
 
-            val adapter = LaunchesAdapter(context!!, it, this)
+          val adapter = LaunchesAdapter(context!!, manager.getDao().getAllTask(), this)
+          //val adapter = LaunchesAdapter(context!!, it, this)
             val layoutManager = LinearLayoutManager(context)
             layoutManager.orientation = RecyclerView.VERTICAL
             recyclerLaunches.layoutManager = layoutManager
             recyclerLaunches.setHasFixedSize(true)
             recyclerLaunches.adapter = adapter
         })
+
+        manager.getDao().getAllTask()
 
     }
 
