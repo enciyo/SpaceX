@@ -1,4 +1,4 @@
-package com.example.githubproject.adapters
+package com.example.githubproject.ui.launches.adapters
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -12,14 +12,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import com.example.githubproject.model.dao.DatabaseManager
-import com.example.githubproject.model.data.Launches
+import com.example.githubproject.data.dao.DatabaseManager
+import com.example.githubproject.data.model.Launches
 import com.example.githubproject.ui.launches.LaunchesFragment
 import kotlinx.android.synthetic.main.launches_item.view.*
 import android.util.Log
 import java.io.ByteArrayOutputStream
 import android.widget.ImageView
-import com.example.githubproject.InternetCheck
+import android.widget.Toast
+import com.example.githubproject.util.InternetCheck
 import com.example.githubproject.R
 
 
@@ -52,11 +53,11 @@ class LaunchesAdapter(val context: Context, var data: List<Launches>, val app: L
                     Navigation.findNavController(itemView).navigate(com.example.githubproject.R.id.toDetail, bundle)
                 }
             }
-            InternetCheck{
+            InternetCheck {
 
-                    if(it) loadFromNetImage(launches)
-                    if(!it) loadFromLocal(launches)
-                }
+                if (it) loadFromNetImage(launches)
+                if (!it) loadFromLocal(launches)
+            }
 
 
 
@@ -64,9 +65,17 @@ class LaunchesAdapter(val context: Context, var data: List<Launches>, val app: L
         }//
 
         fun loadFromLocal(launches: Launches){
-            val bitmap = BitmapFactory.decodeByteArray(launches.picture, 0, launches.picture!!.size)
-            val image = itemView.findViewById<ImageView>(R.id.launches_image)
-            Glide.with(context).load(bitmap).into(image)
+            if(launches.picture!=null){
+                val bitmap = BitmapFactory.decodeByteArray(launches.picture, 0, launches.picture!!.size)
+                val image = itemView.findViewById<ImageView>(R.id.launches_image)
+                Glide.with(context).load(bitmap).into(image)
+
+            }else {
+                Toast.makeText(context,"Connect Network",Toast.LENGTH_SHORT).show()
+                Log.i("MyLogger","Connect Network")
+
+            }
+
             Log.i("MyLogger","LoadFromLocal")
         }
         fun loadFromNetImage(launches: Launches){
@@ -79,9 +88,14 @@ class LaunchesAdapter(val context: Context, var data: List<Launches>, val app: L
                     resource.compress(Bitmap.CompressFormat.PNG, 100, stream)
                     val byteArray = stream.toByteArray()
                     manager.insertImage(byteArray, launches.flightNumber)
+                   if(manager.findByLaunches(launches.flightNumber).isEmpty()){
+                       manager.insert(launches)
+                   }
+
                 }
             })
         }
+
 
     }
 }

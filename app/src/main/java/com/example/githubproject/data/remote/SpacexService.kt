@@ -1,6 +1,6 @@
-package com.example.githubproject.repository
+package com.example.githubproject.data.remote
 
-import com.example.githubproject.model.data.Launches
+import com.example.githubproject.data.model.Launches
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

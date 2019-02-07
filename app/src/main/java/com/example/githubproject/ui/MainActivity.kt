@@ -5,14 +5,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.githubproject.R
-import com.example.githubproject.base.BaseActivity
+import com.example.githubproject.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_launches.*
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.Navigation
-import com.example.githubproject.model.dao.DatabaseManager
 
 
-class LaunchesActivity : BaseActivity() {
+class MainActivity : BaseActivity() {
 
 
 

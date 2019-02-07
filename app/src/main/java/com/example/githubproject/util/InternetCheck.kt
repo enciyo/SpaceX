@@ -1,4 +1,4 @@
-package com.example.githubproject
+package com.example.githubproject.util
 
 import android.os.AsyncTask
 import java.io.IOException

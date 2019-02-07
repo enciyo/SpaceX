@@ -1,17 +1,13 @@
-package com.example.githubproject.model.dao
+package com.example.githubproject.data.dao
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.githubproject.model.data.Launches
-import androidx.sqlite.db.SupportSQLiteDatabase
-import androidx.room.migration.Migration
+import com.example.githubproject.data.model.Launches
 
 
-
-@Database(entities = [Launches::class], version = 15,exportSchema = false)
+@Database(entities = [Launches::class], version = 19,exportSchema = false)
 abstract class DatabaseManager : RoomDatabase() {
 
     abstract fun getDao() : LaunchesDao

@@ -1,6 +1,5 @@
-package com.example.githubproject.model.data
+package com.example.githubproject.data.model
 
-import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -60,7 +59,7 @@ class Launches() {
     var links: Links = Links()
     @Ignore
     @SerializedName("details")
-    var details: Any? = Any()
+    var details: String? = ""
     @Ignore
     @SerializedName("static_fire_date_utc")
     var staticFireDateUtc: Any? = Any()
