@@ -12,19 +12,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import com.example.githubproject.data.dao.DatabaseManager
 import com.example.githubproject.data.model.Launches
-import com.example.githubproject.ui.launches.LaunchesFragment
 import kotlinx.android.synthetic.main.launches_item.view.*
 import android.util.Log
-import java.io.ByteArrayOutputStream
 import android.widget.ImageView
+import java.io.ByteArrayOutputStream
 import android.widget.Toast
-import com.example.githubproject.util.InternetCheck
 import com.example.githubproject.R
+import com.example.githubproject.data.dao.LaunchesDao
+import com.example.githubproject.util.Extentions
+import com.example.githubproject.util.InternetCheck
+import org.jetbrains.anko.doAsync
 
 
-class LaunchesAdapter(val context: Context, var data: List<Launches>, val app: LaunchesFragment) :
+class LaunchesAdapter(val context: Context, var data: List<Launches>, val manager: LaunchesDao) :
     RecyclerView.Adapter<LaunchesAdapter.ViewHolder>() {
     override fun getItemCount(): Int {
         return data.size
@@ -35,13 +36,14 @@ class LaunchesAdapter(val context: Context, var data: List<Launches>, val app: L
     }
 
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(com.example.githubproject.R.layout.launches_item, parent, false)
         return ViewHolder(view)
     }
 
     inner class ViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview) {
-        val manager = DatabaseManager.getLaunches(context)
+        val imageView = itemView.findViewById<ImageView>(R.id.launches_image)
 
         fun initView(launches: Launches) {
             itemView.apply {
@@ -53,11 +55,8 @@ class LaunchesAdapter(val context: Context, var data: List<Launches>, val app: L
                     Navigation.findNavController(itemView).navigate(com.example.githubproject.R.id.toDetail, bundle)
                 }
             }
-            InternetCheck {
 
-                if (it) loadFromNetImage(launches)
-                if (!it) loadFromLocal(launches)
-            }
+          loadFromLocal(launches)
 
 
 
@@ -67,30 +66,26 @@ class LaunchesAdapter(val context: Context, var data: List<Launches>, val app: L
         fun loadFromLocal(launches: Launches){
             if(launches.picture!=null){
                 val bitmap = BitmapFactory.decodeByteArray(launches.picture, 0, launches.picture!!.size)
-                val image = itemView.findViewById<ImageView>(R.id.launches_image)
-                Glide.with(context).load(bitmap).into(image)
+
+                Glide.with(context).load(bitmap).into(imageView)
 
             }else {
-                Toast.makeText(context,"Connect Network",Toast.LENGTH_SHORT).show()
-                Log.i("MyLogger","Connect Network")
+                saveData(launches)
 
             }
 
             Log.i("MyLogger","LoadFromLocal")
         }
-        fun loadFromNetImage(launches: Launches){
-            Log.i("MyLogger","LoadFromLocal")
-            Glide.with(context).load(launches.links.missionPatchSmall).into(itemView.launches_image)
+
+        fun saveData(launches: Launches) {
             Glide.with(context).asBitmap().load(launches.links.missionPatchSmall).into(object :
                 SimpleTarget<Bitmap>() {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     val stream = ByteArrayOutputStream()
                     resource.compress(Bitmap.CompressFormat.PNG, 100, stream)
                     val byteArray = stream.toByteArray()
-                    manager.insertImage(byteArray, launches.flightNumber)
-                   if(manager.findByLaunches(launches.flightNumber).isEmpty()){
-                       manager.insert(launches)
-                   }
+                    Extentions.insertDatabase(manager,launches,byteArray,launches.flightNumber)
+                    Glide.with(context).load(resource).into(imageView)
 
                 }
             })

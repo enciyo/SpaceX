@@ -8,13 +8,13 @@ import com.example.githubproject.util.InternetCheck
 import com.example.githubproject.ui.launches.adapters.LaunchesAdapter
 import com.example.githubproject.ui.base.BaseFragment
 import com.example.githubproject.data.model.Launches
+import com.example.githubproject.data.SpacexRepository
 import kotlinx.android.synthetic.main.fragment_launches.*
 
 
 class LaunchesFragment : BaseFragment() {
-    var viewModel = LaunchesViewModel()
     val TAG = "LaunchesFragment"
-
+    lateinit var viewModel: LaunchesViewModel
     override fun getLayoutResourceId(): Int {
         return com.example.githubproject.R.layout.fragment_launches
     }
@@ -26,27 +26,28 @@ class LaunchesFragment : BaseFragment() {
 
     override fun onStart() {
         super.onStart()
-
-            Log.i("MyLogger","Failed")
+        viewModel = LaunchesViewModel(activity!!.application)
+        Log.i("MyLogger", "Failed")
 
     }
 
-    fun checkInternet(){
-        InternetCheck {
-            if (it) {
-                viewModel.getData(context!!).observe(this, Observer {
-                    initView(it)
-                })
-            }
-            if (!it) {
-                viewModel.getDb(context!!).observe(this, Observer {
-                    initView(it)
-                })
-            }
+    fun checkInternet() {
+
+        if (InternetCheck(context!!).isOnline()) {
+            viewModel.getData(context!!).observe(this, Observer {
+                initView(it)
+            })
         }
+        if (!InternetCheck(context!!).isOnline()) {
+            viewModel.getDb(context!!).observe(this, Observer {
+                initView(it)
+            })
+        }
+
     }
-    fun initView(list:List<Launches>){
-        val adapter = LaunchesAdapter(context!!,list ,this)
+
+    fun initView(list: List<Launches>) {
+        val adapter = LaunchesAdapter(context!!, list, SpacexRepository(context!!).getDB())
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = RecyclerView.VERTICAL
         recyclerLaunches.layoutManager = layoutManager

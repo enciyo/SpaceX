@@ -1,29 +1,19 @@
 package com.example.githubproject.util
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.AsyncTask
 import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
 
-internal class InternetCheck(private val onInternetChecked: (Boolean) -> Unit) :
-    AsyncTask<Void, Void, Boolean>() {
-    init {
-        execute()
-    }
+internal class InternetCheck (val context: Context)  {
+     fun isOnline(): Boolean {
+        var returner = false
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-    override fun doInBackground(vararg voids: Void): Boolean {
-        return try {
-            val sock = Socket()
-            sock.connect(InetSocketAddress("8.8.8.8", 53), 1500)
-            sock.close()
-            true
-        } catch (e: IOException) {
-            false
-        }
-
-    }
-
-    override fun onPostExecute(internet: Boolean) {
-        onInternetChecked(internet)
+        val activeNetwork = cm.activeNetworkInfo
+        returner = activeNetwork != null && activeNetwork.isConnected
+        return returner
     }
 }

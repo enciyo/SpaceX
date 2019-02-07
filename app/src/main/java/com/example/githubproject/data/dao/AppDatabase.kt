@@ -7,24 +7,23 @@ import androidx.room.RoomDatabase
 import com.example.githubproject.data.model.Launches
 
 
-@Database(entities = [Launches::class], version = 19,exportSchema = false)
-abstract class DatabaseManager : RoomDatabase() {
+@Database(entities = [Launches::class], version = 19, exportSchema = false)
+abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun getDao() : LaunchesDao
+    abstract fun getDao(): LaunchesDao
 
     companion object {
 
 
-        var INSTANCE: DatabaseManager? = null
+        var INSTANCE: AppDatabase? = null
 
-        fun getDatabaseManager(context: Context): DatabaseManager {
+        fun getDatabaseManager(context: Context): AppDatabase {
             if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(
                     context,
-                    DatabaseManager::class.java,
+                    AppDatabase::class.java,
                     "Launches"
-                )
-                    .fallbackToDestructiveMigration()
+                ) .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
                     .build()
             }
@@ -35,6 +34,5 @@ abstract class DatabaseManager : RoomDatabase() {
         }
 
     }
-
 
 }

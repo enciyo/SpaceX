@@ -22,7 +22,7 @@ interface LaunchesDao {
 
 
     @Insert
-    fun insert(launches: Launches)
+    fun insert(launches: Launches) : Long
 
     @Delete
     fun delete(launches: Launches)

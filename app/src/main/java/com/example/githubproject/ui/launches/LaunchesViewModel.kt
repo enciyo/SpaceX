@@ -3,19 +3,18 @@ package com.example.githubproject.ui.launches
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.githubproject.data.dao.DatabaseManager
 import com.example.githubproject.data.model.Launches
-import com.example.githubproject.data.remote.SpacexRepository
+import com.example.githubproject.data.SpacexRepository
 
 
-class LaunchesViewModel : ViewModel() {
+class LaunchesViewModel (val context: Context): ViewModel() {
 
     fun getData(context: Context) : LiveData<List<Launches>> {
-       return SpacexRepository.getInstrance().getLaunchesList()
+       return SpacexRepository(context).getLaunchesList()
     }
 
     fun getDb(context: Context) : LiveData<List<Launches>>{
-        return DatabaseManager.getLaunches(context).getAllTask()
+        return SpacexRepository(this.context).getDB().getAllTask()
     }
 
 }
