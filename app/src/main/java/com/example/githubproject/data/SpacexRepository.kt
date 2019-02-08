@@ -15,13 +15,14 @@ import com.example.githubproject.util.Extentions.myLog
 import retrofit2.Call
 import retrofit2.Response
 import android.os.AsyncTask
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 
+class SpacexRepository(val context: Context) {
 
-
-class SpacexRepository(val context : Context) {
-
-    private var TAG : String = SpacexRepository::class.java.name
+    private var TAG: String = SpacexRepository::class.java.name
     private var appDatabase: AppDatabase = AppDatabase.getDatabaseManager(context)
     private var service = ApiClient().getService()
 
@@ -30,13 +31,14 @@ class SpacexRepository(val context : Context) {
         val data: MutableLiveData<List<Launches>> = MutableLiveData()
         service.getLaunches().enqueue(object : retrofit2.Callback<List<Launches>> {
             override fun onFailure(call: Call<List<Launches>>, t: Throwable) {
-               Extentions.myLog(this@SpacexRepository::class.java,t.message!!)
+                Extentions.myLog(this@SpacexRepository::class.java, t.message!!)
 
 
             }
+
             override fun onResponse(call: Call<List<Launches>>, response: Response<List<Launches>>) {
                 data.value = response.body()
-                Extentions.myLog(this@SpacexRepository::class.java,"getLaunchesList().OnResponse")
+                Extentions.myLog(this@SpacexRepository::class.java, "getLaunchesList().OnResponse")
             }
         })
         return data
@@ -48,13 +50,13 @@ class SpacexRepository(val context : Context) {
         service.getOneLaunch(groupId).enqueue(object : retrofit2.Callback<Launches> {
             override fun onFailure(call: Call<Launches>, t: Throwable) {
                 this@SpacexRepository.getOneLaunchList(groupId)
-                Extentions.myLog(this@SpacexRepository::class.java,"getOneLaunchList: "+t.message!!)
+                Extentions.myLog(this@SpacexRepository::class.java, "getOneLaunchList: " + t.message!!)
 
             }
 
             override fun onResponse(call: Call<Launches>, response: Response<Launches>) {
                 data.value = response.body()
-                Extentions.myLog(this@SpacexRepository::class.java,"getOneLaunchList: OnResponse")
+                Extentions.myLog(this@SpacexRepository::class.java, "getOneLaunchList: OnResponse")
             }
 
         })
@@ -65,13 +67,5 @@ class SpacexRepository(val context : Context) {
         return appDatabase.getDao()
     }
 
-    fun insertDatabase(launches: Launches) {
-        object : AsyncTask<Void, Void, Void>() {
-            override fun doInBackground(vararg voids: Void): Void? {
-                appDatabase.getDao().insert(launches)
-                return null
-            }
-        }.execute()
-    }
 
 }

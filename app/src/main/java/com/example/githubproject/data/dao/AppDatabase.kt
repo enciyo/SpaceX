@@ -4,10 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.githubproject.data.model.Launches
 
 
-@Database(entities = [Launches::class], version = 19, exportSchema = false)
+@Database(entities = [Launches::class], version = 43, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getDao(): LaunchesDao
@@ -28,9 +29,6 @@ abstract class AppDatabase : RoomDatabase() {
                     .build()
             }
             return INSTANCE!!
-        }
-        fun getLaunches(context: Context): LaunchesDao {
-            return getDatabaseManager(context).getDao()
         }
 
     }

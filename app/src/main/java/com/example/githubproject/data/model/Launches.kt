@@ -1,10 +1,14 @@
 package com.example.githubproject.data.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.room.*
+import com.bumptech.glide.load.resource.bitmap.BitmapDrawableEncoder
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 @Entity(tableName = "Launches")
 class Launches() {
@@ -70,7 +74,6 @@ class Launches() {
     @SerializedName("timeline")
     var timeline: Any? = Any()
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    var picture: ByteArray? = null
-
+    var bitmap: ByteArray? = null
 
 }

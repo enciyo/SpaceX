@@ -27,7 +27,7 @@ class DetailFragment : BaseFragment() {
         if (InternetCheck(context!!).isOnline()) {
             viewModel.getOneData(position).observe(this, Observer {
                 detail_title.text = it.missionName
-                detail_detail.text = it.details.toString()
+                detail_detail.text = it.flightNumber.toString()
                 detail_year.text = it.launchYear.toString()
                 Glide.with(this@DetailFragment).load(it.links.missionPatch.toString()).into(detail_image)
             })
@@ -35,9 +35,9 @@ class DetailFragment : BaseFragment() {
         if (!InternetCheck(context!!).isOnline()) {
             viewModel.getDb(context!!, position).observe(this, Observer {
                 detail_title.text = it.missionName
-                detail_detail.text = it.details
+                detail_detail.text = it.flightNumber.toString()
                 detail_year.text = it.launchYear.toString()
-                val bitmap = BitmapFactory.decodeByteArray(it.picture, 0, it.picture!!.size)
+                val bitmap = BitmapFactory.decodeByteArray(it.bitmap, 0, it.bitmap!!.size)
                 Glide.with(context!!).load(bitmap).into(detail_image)
 
             })
