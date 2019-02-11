@@ -20,10 +20,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-class SpacexRepository(val context: Context) {
+class SpacexRepository {
 
     private var TAG: String = SpacexRepository::class.java.name
-    private var appDatabase: AppDatabase = AppDatabase.getDatabaseManager(context)
     private var service = ApiClient().getService()
 
 
@@ -32,7 +31,6 @@ class SpacexRepository(val context: Context) {
         service.getLaunches().enqueue(object : retrofit2.Callback<List<Launches>> {
             override fun onFailure(call: Call<List<Launches>>, t: Throwable) {
                 Extentions.myLog(this@SpacexRepository::class.java, t.message!!)
-
 
             }
 
@@ -45,11 +43,10 @@ class SpacexRepository(val context: Context) {
     }
 
     fun getOneLaunchList(groupId: Int): LiveData<Launches> {
-        var data: MutableLiveData<Launches> = MutableLiveData()
+        val data: MutableLiveData<Launches> = MutableLiveData()
 
         service.getOneLaunch(groupId).enqueue(object : retrofit2.Callback<Launches> {
             override fun onFailure(call: Call<Launches>, t: Throwable) {
-                this@SpacexRepository.getOneLaunchList(groupId)
                 Extentions.myLog(this@SpacexRepository::class.java, "getOneLaunchList: " + t.message!!)
 
             }
@@ -61,10 +58,6 @@ class SpacexRepository(val context: Context) {
 
         })
         return data
-    }
-
-    fun getDB(): LaunchesDao {
-        return appDatabase.getDao()
     }
 
 

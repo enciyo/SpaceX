@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import com.example.githubproject.data.dao.DaoRepository
+import com.example.githubproject.data.dao.LaunchesDao
 import com.example.githubproject.data.model.Launches
 import com.example.githubproject.util.Extentions
 import java.io.ByteArrayOutputStream
@@ -28,7 +29,6 @@ open class AsyncTaskLoadImage(val repository: DaoRepository, val launches: Launc
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
         return bitmap
     }
 

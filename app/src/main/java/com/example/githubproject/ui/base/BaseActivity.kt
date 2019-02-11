@@ -12,4 +12,5 @@ abstract class BaseActivity : AppCompatActivity() {
         setContentView(getLayoutResourceId())
 
     }
+
 }

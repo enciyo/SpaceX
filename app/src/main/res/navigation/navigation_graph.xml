@@ -7,9 +7,9 @@
     <fragment android:id="@+id/launchesFragment" android:name="com.example.githubproject.ui.launches.LaunchesFragment"
               android:label="">
         <action android:id="@+id/toDetail" app:destination="@id/detailFragment"
-                app:popUpToInclusive="true" app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim" app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-                app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:launchSingleTop="true"/>
         <argument android:name="detailReference" app:argType="integer" android:defaultValue="0"/>
     </fragment>
 

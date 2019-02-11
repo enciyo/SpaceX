@@ -17,8 +17,6 @@ import com.squareup.picasso.Request
 class MainActivity : BaseActivity() {
 
 
-
-
     override fun getLayoutResourceId(): Int {
         return R.layout.activity_launches
     }
@@ -42,7 +40,6 @@ class MainActivity : BaseActivity() {
             override fun transformRequest(request: Request?): Request {
                 return request!!
             }
-
         }
         builder.requestTransformer(requestTransformer);
         return builder.build();

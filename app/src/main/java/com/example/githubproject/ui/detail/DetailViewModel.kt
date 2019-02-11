@@ -5,16 +5,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.githubproject.data.model.Launches
 import com.example.githubproject.data.SpacexRepository
+import com.example.githubproject.data.dao.AppDatabase
 
-class DetailViewModel(val context: Context) : ViewModel() {
+class DetailViewModel(context: Context, groupId: Int) : ViewModel() {
 
-    fun getOneData(groupId:Int) : LiveData<Launches> {
-        return SpacexRepository(context).getOneLaunchList(groupId)
+    private var fetchFromNetwork: LiveData<Launches>? = null
+    private var fetchFromDatabase: LiveData<Launches>? = null
+
+    init {
+        fetchFromNetwork = SpacexRepository().getOneLaunchList(groupId)
+        fetchFromDatabase = AppDatabase.getDatabaseManager(context).getDao().findByName(groupId)
     }
 
-    fun getDb(context: Context,groupId: Int) : LiveData<Launches>{
-        return SpacexRepository(context).getDB().findByName(groupId)
-    }
 
+    fun getOneData(): LiveData<Launches>? = fetchFromNetwork
+    fun getDb(): LiveData<Launches>? = fetchFromDatabase
 
 }

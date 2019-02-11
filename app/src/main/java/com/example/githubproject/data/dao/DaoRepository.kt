@@ -11,8 +11,6 @@ class DaoRepository(val appDatabase: LaunchesDao) {
 
     fun insert(launches: Launches, byteArray: ByteArray) {
         appDatabase.insertImage(byteArray, launches.flightNumber)
-
-
     }
 }
 

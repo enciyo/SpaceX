@@ -8,13 +8,12 @@ import androidx.room.TypeConverters
 import com.example.githubproject.data.model.Launches
 
 
-@Database(entities = [Launches::class], version = 43, exportSchema = false)
+@Database(entities = [Launches::class], version = 45, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getDao(): LaunchesDao
 
     companion object {
-
 
         var INSTANCE: AppDatabase? = null
 

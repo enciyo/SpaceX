@@ -18,7 +18,7 @@
             <ImageView
                     android:id="@+id/detail_image"
                     android:layout_margin="20dp"
-                    android:scaleType="center"
+                    android:scaleType="centerInside"
                     android:layout_centerHorizontal="true"
                     android:background="@color/light_black"
                     android:layout_width="300dp"
@@ -31,21 +31,32 @@
                     android:gravity="start"
                     android:paddingLeft="12dp"
                     android:textSize="30dp"
-                    android:text="Title"
+                    android:text=""
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    />
+            />
 
             <TextView
                     android:id="@+id/detail_detail"
                     android:textColor="@android:color/white"
                     android:padding="12dp"
-                    android:text="Description"
+                    android:text=""
                     android:gravity="start"
                     android:textSize="21sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/detail_image"/>
+            <TextView
+                    android:id="@+id/detail_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:layout_below="@+id/detail_detail"
+                    android:textSize="26sp"
+                    android:textColor="@android:color/white"
+                    android:text=""
+            />
 
             <TextView
                     android:id="@+id/detail_year"
@@ -53,7 +64,7 @@
                     android:textColor="@android:color/white"
                     android:gravity="start"
                     android:textSize="17sp"
-                    android:text="Year"
+                    android:text=""
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/detail_title"/>
