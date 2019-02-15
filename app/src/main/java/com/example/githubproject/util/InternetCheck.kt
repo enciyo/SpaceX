@@ -5,14 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
-import android.os.AsyncTask
-import com.example.githubproject.ui.NetworkStateReceiver
-import java.io.IOException
-import java.net.InetSocketAddress
-import java.net.Socket
+import android.net.NetworkInfo
+
 
 internal class InternetCheck(val context: Context) : BroadcastReceiver() {
-    private var mManager: ConnectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    var mManager: ConnectivityManager = (context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?)!!
     private var mListeners: MutableList<NetworkStateReceiver> = ArrayList()
     private var mConnected: Boolean = false
 
@@ -62,5 +59,17 @@ internal class InternetCheck(val context: Context) : BroadcastReceiver() {
 
     fun removeListener(l: NetworkStateReceiver) {
         mListeners.remove(l)
+    }
+
+    fun isConnectedToInternet(): Boolean {
+        val connectivity = context.getSystemService(
+            Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val info = connectivity.allNetworkInfo
+        if (info != null)
+            for (i in info.indices)
+                if (info[i].state == NetworkInfo.State.CONNECTED) {
+                    return true
+                }
+        return false
     }
 }

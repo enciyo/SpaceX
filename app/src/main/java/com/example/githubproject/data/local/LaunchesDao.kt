@@ -1,18 +1,22 @@
-package com.example.githubproject.data.dao
+package com.example.githubproject.data.local
 
-import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.githubproject.data.model.Launches
+import io.reactivex.Observable
+import io.reactivex.Single
 
 @Dao
 interface LaunchesDao {
 
     @Query("SELECT * FROM Launches ORDER BY `flightNumber`")
-    fun getAllTask(): LiveData<List<Launches>>
+    fun getAllLaunches(): Observable<List<Launches>>
+
+    @Query("SELECT COUNT(*) FROM Launches")
+    fun getSize() : Int
 
     @Query("SELECT * FROM Launches where `flightNumber` LIKE  :value ")
-    fun findByName(value: Int): LiveData<Launches>
+    fun findByName(value: Int): Observable<Launches>
 
     @Query("SELECT COUNT(flightNumber) FROM Launches WHERE `flightNumber`= :value")
     fun findByLaunches(value: Int): Boolean
@@ -26,6 +30,9 @@ interface LaunchesDao {
 
     @Insert
     fun insert(launches: Launches) : Long
+
+    @Insert
+    fun insertAll(launches: List<Launches>)
 
     @Delete
     fun delete(launches: Launches)

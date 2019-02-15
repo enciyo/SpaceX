@@ -1,35 +1,40 @@
 package com.example.githubproject.data.cache
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.AsyncTask
-import com.example.githubproject.data.dao.DaoRepository
-import com.example.githubproject.data.dao.LaunchesDao
+import com.example.githubproject.data.local.LaunchesDao
 import com.example.githubproject.data.model.Launches
 import com.example.githubproject.util.Extentions
-import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.io.InputStream
-import java.net.URL
 
 
-open class AsyncTaskLoadImage(val repository: DaoRepository, val launches: Launches,val bitmap: Bitmap) :
+open class AsyncTaskLoadImage(val repository: LaunchesDao, val launches: List<Launches>) :
     AsyncTask<String, String, Bitmap>() {
+
+    var index: Int = 0
 
     override fun doInBackground(vararg params: String): Bitmap? {
         try {
-            Extentions.myLog(this::class.java,"doInBAckgroung")
-            val stream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, 1, stream)
-            val byteArray = stream.toByteArray()
-            repository.insert(launches,byteArray)
+            Extentions.myLog(this::class.java, "doInBAckgroung")
+            if (repository.getSize() != launches.size) {
+                this.index = repository.getSize()
+                for (t in -1..launches.size) {
+                    if (!repository.findByLaunches(launches[t].flightNumber)) {
+                        repository.insert(launches[t])
+                        repository.insertImage(
+                            UrlConvertToByteArray.getUrl(launches[t].links.missionPatch.toString()),
+                            t
+                        )
+                    }
+                }
+            }
 
         } catch (e: IOException) {
             e.printStackTrace()
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        return bitmap
+        return null
     }
 
     companion object {

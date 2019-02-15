@@ -7,13 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.githubproject.R
-import com.example.githubproject.ui.NetworkStateReceiver
+import com.example.githubproject.util.NetworkStateReceiver
+import com.example.githubproject.util.Extentions
 import com.example.githubproject.util.InternetCheck
-import com.google.android.material.snackbar.Snackbar
 
 
 abstract class BaseFragment : Fragment(), NetworkStateReceiver {
+
     private var networkStateReceiver: InternetCheck? = null
 
 
@@ -23,14 +23,13 @@ abstract class BaseFragment : Fragment(), NetworkStateReceiver {
         return inflater.inflate(getLayoutResourceId(), container, false)
     }
 
-
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
+        activity!!.title=""
         setNetworkState()
-
     }
+
     fun setNetworkState() {
-        println("MyLogger")
         networkStateReceiver = InternetCheck(context!!)
         networkStateReceiver!!.addListener(this)
         activity!!.applicationContext.registerReceiver(
@@ -39,6 +38,11 @@ abstract class BaseFragment : Fragment(), NetworkStateReceiver {
         )
     }
 
+    override fun onNetworkAvailable(){}
+
+    override fun onNetworkUnavailable() {
+        Extentions.getSnackbar(view!!)
+    }
 
 
 }

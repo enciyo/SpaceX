@@ -1,14 +1,13 @@
-package com.example.githubproject.data.dao
+package com.example.githubproject.data.local
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 import com.example.githubproject.data.model.Launches
 
 
-@Database(entities = [Launches::class], version = 45, exportSchema = false)
+@Database(entities = [Launches::class], version = 53, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getDao(): LaunchesDao
@@ -17,9 +16,9 @@ abstract class AppDatabase : RoomDatabase() {
 
         var INSTANCE: AppDatabase? = null
 
-        fun getDatabaseManager(context: Context): AppDatabase {
-            if (INSTANCE == null) {
-                INSTANCE = Room.databaseBuilder(
+        fun createDb(context: Context): AppDatabase {
+            if (AppDatabase.INSTANCE == null) {
+                AppDatabase.INSTANCE = Room.databaseBuilder(
                     context,
                     AppDatabase::class.java,
                     "Launches"
@@ -27,9 +26,8 @@ abstract class AppDatabase : RoomDatabase() {
                     .allowMainThreadQueries()
                     .build()
             }
-            return INSTANCE!!
+            return AppDatabase.INSTANCE!!
         }
-
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.githubproject.util
 
 import android.app.ProgressDialog
 import android.content.Context
+import android.graphics.Color
 import android.util.Log
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
@@ -26,7 +27,9 @@ object Extentions {
     }
 
     fun getSnackbar(view:View) {
-        return Snackbar.make(view,"Network Error", Snackbar.LENGTH_SHORT).show()
+        return Snackbar.make(view,"Network Error", Snackbar.LENGTH_SHORT)
+            .setActionTextColor(Color.BLUE)
+            .show()
     }
 
 

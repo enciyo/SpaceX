@@ -1,4 +1,4 @@
-package com.example.githubproject.ui
+package com.example.githubproject.util
 
 interface NetworkStateReceiver {
 

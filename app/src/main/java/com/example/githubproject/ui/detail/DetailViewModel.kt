@@ -1,24 +1,25 @@
 package com.example.githubproject.ui.detail
 
 import android.content.Context
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.githubproject.data.model.Launches
 import com.example.githubproject.data.SpacexRepository
-import com.example.githubproject.data.dao.AppDatabase
+import com.example.githubproject.data.model.Launches
 
 class DetailViewModel(context: Context, groupId: Int) : ViewModel() {
 
-    private var fetchFromNetwork: LiveData<Launches>? = null
-    private var fetchFromDatabase: LiveData<Launches>? = null
+    private var data: MutableLiveData<Launches>? = MutableLiveData()
+    private var fetchData = SpacexRepository(context).getDetailLaunch(groupId = groupId)
 
     init {
-        fetchFromNetwork = SpacexRepository().getOneLaunchList(groupId)
-        fetchFromDatabase = AppDatabase.getDatabaseManager(context).getDao().findByName(groupId)
+
+        fetchData!!.subscribe({
+            data!!.postValue(it)
+        })
+
     }
 
+    fun getData() : MutableLiveData<Launches> = data!!
 
-    fun getOneData(): LiveData<Launches>? = fetchFromNetwork
-    fun getDb(): LiveData<Launches>? = fetchFromDatabase
 
 }

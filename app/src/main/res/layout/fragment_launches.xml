@@ -6,9 +6,16 @@
                 tools:context=".ui.MainActivity">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:paddingTop="10dp"
-            android:id="@+id/recyclerLaunches"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:id="@+id/refleshLayout"
+            android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+                android:paddingTop="10dp"
+                android:id="@+id/recyclerLaunches"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </RelativeLayout>

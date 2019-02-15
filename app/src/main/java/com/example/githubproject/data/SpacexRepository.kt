@@ -1,64 +1,70 @@
 package com.example.githubproject.data
 
 import android.content.Context
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.room.Room
-import com.example.githubproject.data.dao.AppDatabase
-import com.example.githubproject.data.dao.LaunchesDao
+import com.example.githubproject.data.cache.AsyncTaskLoadImage
+import com.example.githubproject.data.local.AppDatabase
 import com.example.githubproject.data.model.Launches
 import com.example.githubproject.data.remote.ApiClient
-import com.example.githubproject.data.remote.ApiService
 import com.example.githubproject.util.Extentions
-import com.example.githubproject.util.Extentions.myLog
-import retrofit2.Call
-import retrofit2.Response
-import android.os.AsyncTask
+import com.example.githubproject.util.InternetCheck
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-class SpacexRepository {
+class SpacexRepository(var context: Context) {
 
-    private var TAG: String = SpacexRepository::class.java.name
     private var service = ApiClient().getService()
+    private var appDatabase = AppDatabase.createDb(context).getDao()
 
 
-    fun getLaunchesList(): LiveData<List<Launches>> {
-        val data: MutableLiveData<List<Launches>> = MutableLiveData()
-        service.getLaunches().enqueue(object : retrofit2.Callback<List<Launches>> {
-            override fun onFailure(call: Call<List<Launches>>, t: Throwable) {
-                Extentions.myLog(this@SpacexRepository::class.java, t.message!!)
-
-            }
-
-            override fun onResponse(call: Call<List<Launches>>, response: Response<List<Launches>>) {
-                data.value = response.body()
-                Extentions.myLog(this@SpacexRepository::class.java, "getLaunchesList().OnResponse")
-            }
-        })
-        return data
+    fun getLaunches(): Observable<List<Launches>>? {
+        val hasConnection = InternetCheck(context).isConnectedToInternet()
+        Extentions.myLog(this::class.java, "InternetCheck")
+        return if(hasConnection) getFromNetworkSaveDatabase() else getLaunchesFromDatabase()
     }
 
-    fun getOneLaunchList(groupId: Int): LiveData<Launches> {
-        val data: MutableLiveData<Launches> = MutableLiveData()
-
-        service.getOneLaunch(groupId).enqueue(object : retrofit2.Callback<Launches> {
-            override fun onFailure(call: Call<Launches>, t: Throwable) {
-                Extentions.myLog(this@SpacexRepository::class.java, "getOneLaunchList: " + t.message!!)
-
+    private fun getFromNetworkSaveDatabase(): Observable<List<Launches>> {
+        return service.getLaunches()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext {
+                AsyncTaskLoadImage(appDatabase,it).execute()
+            }
+            .doOnError {
+                Extentions.myLog(this::class.java,it.message.toString())
             }
 
-            override fun onResponse(call: Call<Launches>, response: Response<Launches>) {
-                data.value = response.body()
-                Extentions.myLog(this@SpacexRepository::class.java, "getOneLaunchList: OnResponse")
-            }
-
-        })
-        return data
     }
+
+    private fun getLaunchesFromDatabase(): Observable<List<Launches>> {
+        return appDatabase!!.getAllLaunches()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+    }
+
+
+
+    fun getDetailLaunch(groupId: Int) : Observable<Launches>{
+        val hasConnection = InternetCheck(context).isConnectedToInternet()
+        return if(hasConnection) getDetailLaunchFromNet(groupId) else getDetailLaunchFromDb(groupId)
+    }
+
+   private fun getDetailLaunchFromNet(groupId:Int) : Observable<Launches>{
+        return service.getOneLaunch(groupId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+    }
+
+    private fun getDetailLaunchFromDb(groupId: Int) : Observable<Launches> {
+        return appDatabase.findByName(groupId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
 
 
 }
+

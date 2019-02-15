@@ -4,14 +4,17 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.annotation.RequiresApi
 import androidx.room.*
 import com.bumptech.glide.load.resource.bitmap.BitmapDrawableEncoder
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 import java.util.*
 
 @Entity(tableName = "Launches")
-class Launches() {
+class Launches() : Parcelable {
     @PrimaryKey(autoGenerate = true)
     var mId: Int = 0
     @SerializedName("flight_number")
@@ -75,5 +78,51 @@ class Launches() {
     var timeline: Any? = Any()
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
     var bitmap: ByteArray? = null
+
+    constructor(parcel: Parcel) : this() {
+        mId = parcel.readInt()
+        flightNumber = parcel.readInt()
+        missionName = parcel.readString()
+        upcoming = parcel.readByte() != 0.toByte()
+        launchYear = parcel.readString()
+        launchDateUnix = parcel.readInt()
+        launchDateUtc = parcel.readString()
+        launchDateLocal = parcel.readString()
+        isTentative = parcel.readByte() != 0.toByte()
+        tentativeMaxPrecision = parcel.readString()
+        tbd = parcel.readByte() != 0.toByte()
+        details = parcel.readString()
+        bitmap = parcel.createByteArray()
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(mId)
+        parcel.writeInt(flightNumber)
+        parcel.writeString(missionName)
+        parcel.writeByte(if (upcoming) 1 else 0)
+        parcel.writeString(launchYear)
+        parcel.writeInt(launchDateUnix)
+        parcel.writeString(launchDateUtc)
+        parcel.writeString(launchDateLocal)
+        parcel.writeByte(if (isTentative) 1 else 0)
+        parcel.writeString(tentativeMaxPrecision)
+        parcel.writeByte(if (tbd) 1 else 0)
+        parcel.writeString(details)
+        parcel.writeByteArray(bitmap)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Launches> {
+        override fun createFromParcel(parcel: Parcel): Launches {
+            return Launches(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Launches?> {
+            return arrayOfNulls(size)
+        }
+    }
 
 }

@@ -5,7 +5,7 @@
                 android:background="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-i
+
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/my_toolbar"
             android:layout_width="match_parent"
@@ -16,6 +16,7 @@ i
             android:theme="@style/AppTheme.Launcher"
             android:elevation="4dp"
             tools:targetApi="lollipop">
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -23,13 +24,13 @@ i
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 android:textColor="@android:color/white"
                 android:layout_gravity="center"
-                android:id="@+id/toolbar_title" />
+                android:id="@+id/toolbar_title"/>
     </androidx.appcompat.widget.Toolbar>
     <fragment
             android:id="@+id/my_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             app:navGraph="@navigation/navigation_graph"
-            app:defaultNavHost ="true"
+            app:defaultNavHost="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
