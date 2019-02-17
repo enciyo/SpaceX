@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.githubproject.data.model.Launches
 
 
-@Database(entities = [Launches::class], version = 53, exportSchema = false)
+@Database(entities = [Launches::class], version = 65, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getDao(): LaunchesDao

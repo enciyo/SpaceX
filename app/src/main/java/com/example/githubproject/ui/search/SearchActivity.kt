@@ -19,6 +19,9 @@ import com.example.githubproject.util.Extentions
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_search.*
 import org.jetbrains.anko.contentView
+import android.app.Activity
+
+
 
 class SearchActivity : BaseActivity() ,SearchListener{
     override fun show() {
@@ -28,7 +31,8 @@ class SearchActivity : BaseActivity() ,SearchListener{
 
     override fun close() {
         searchView.clearFocus()
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
         searchView.isVisible=false
     }
 
@@ -50,7 +54,6 @@ class SearchActivity : BaseActivity() ,SearchListener{
         }
 
         viewModel = SearchViewModel(application)
-
         searchView.requestFocus()
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
@@ -75,7 +78,7 @@ class SearchActivity : BaseActivity() ,SearchListener{
     }
 
     fun filterData(list: List<Launches>) {
-        var mList: ArrayList<Launches> = arrayListOf()
+        val mList: ArrayList<Launches> = arrayListOf()
         Observable.fromCallable {
             for (i in 0..list.size - 1) {
                 if (myText.length <= list[i].missionName.length) {
