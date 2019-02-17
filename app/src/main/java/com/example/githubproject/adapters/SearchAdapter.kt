@@ -1,15 +1,12 @@
-package com.example.githubproject.ui.search
+package com.example.githubproject.adapters
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.githubproject.R
@@ -17,11 +14,10 @@ import com.example.githubproject.data.local.AppDatabase
 import com.example.githubproject.data.local.LaunchesDao
 import com.example.githubproject.data.model.Launches
 import com.example.githubproject.ui.DetailFragment
+import com.example.githubproject.ui.search.SearchListener
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_search.*
-import kotlinx.android.synthetic.main.activity_search.view.*
 import kotlinx.android.synthetic.main.adapter_item.view.*
 
 
@@ -56,13 +52,13 @@ class SearchAdapter(var data: MutableList<Launches>,val listener: SearchListener
         var imageView = itemView.findViewById<ImageView>(R.id.launches_image)
 
         fun initView(launches: Launches) {
-            var detailFragment:DetailFragment = DetailFragment()
+            val detailFragment = DetailFragment()
             itemView.apply {
                 launches_title.text = launches.missionName
                 launches_year.text = launches.launchYear
             }
 
-            itemView.setOnClickListener(View.OnClickListener {
+            itemView.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putInt("detailReference", launches.flightNumber)
                 bundle.putParcelable("detail", launches)
@@ -71,7 +67,7 @@ class SearchAdapter(var data: MutableList<Launches>,val listener: SearchListener
                     (itemView.context as AppCompatActivity).supportFragmentManager.beginTransaction().replace( R.id.myFrameLayout,detailFragment,"DetailFragment").commit()
                     listener.close()
                 }
-            })
+            }
 
             loadFromNet(launches)
 

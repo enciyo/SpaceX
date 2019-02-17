@@ -5,7 +5,6 @@ import android.os.AsyncTask
 import com.example.githubproject.data.local.LaunchesDao
 import com.example.githubproject.data.model.Launches
 import com.example.githubproject.util.Extentions
-import io.reactivex.rxkotlin.toSingle
 import java.io.IOException
 
 

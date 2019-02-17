@@ -1,13 +1,8 @@
 package com.example.githubproject.ui.search
 
-import android.annotation.TargetApi
-import android.content.Context
-import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,12 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.githubproject.R
 import com.example.githubproject.data.model.Launches
 import com.example.githubproject.ui.base.BaseActivity
-import com.example.githubproject.util.Extentions
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_search.*
-import org.jetbrains.anko.contentView
 import android.app.Activity
-
+import com.example.githubproject.adapters.SearchAdapter
 
 
 class SearchActivity : BaseActivity() ,SearchListener{
@@ -97,7 +90,7 @@ class SearchActivity : BaseActivity() ,SearchListener{
 
     fun initAdapter() {
 
-        adapter = SearchAdapter(mutableListOf(),this)
+        adapter = SearchAdapter(mutableListOf(), this)
         val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         searchListView.layoutManager = layoutManager
         searchListView.adapter = adapter

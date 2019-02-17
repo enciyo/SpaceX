@@ -1,10 +1,8 @@
 package com.example.githubproject.data.local
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.githubproject.data.model.Launches
 import io.reactivex.Observable
-import io.reactivex.Single
 
 @Dao
 interface LaunchesDao {

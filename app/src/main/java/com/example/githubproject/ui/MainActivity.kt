@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.TextView
 import com.example.githubproject.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_launches.*
 import androidx.navigation.ui.NavigationUI
@@ -42,7 +41,7 @@ class MainActivity : BaseActivity() {
                 return request!!
             }
         }
-        builder.requestTransformer(requestTransformer);
+        builder.requestTransformer(requestTransformer)
         return builder.build()
     }
 
