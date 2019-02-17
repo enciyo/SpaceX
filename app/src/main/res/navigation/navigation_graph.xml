@@ -5,19 +5,17 @@
             app:startDestination="@id/launchesFragment">
 
     <fragment android:id="@+id/launchesFragment" android:name="com.example.githubproject.ui.launches.LaunchesFragment"
-              android:label="">
+              android:label=" ">
         <action android:id="@+id/toDetail" app:destination="@id/detailFragment"
                 app:enterAnim="@anim/nav_default_enter_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:launchSingleTop="true"/>
         <argument android:name="detailReference" app:argType="integer" android:defaultValue="0"/>
-        <action android:id="@+id/toSearchFromLaunch" app:destination="@id/searchFragment"/>
     </fragment>
 
-    <fragment android:id="@+id/detailFragment" android:name="com.example.githubproject.ui.DetailFragment"
-              android:label="">
-        <action android:id="@+id/toSearchFromDetail" app:destination="@id/searchFragment"/>
+    <fragment android:id="@+id/detailFragment"
+              android:name="com.example.githubproject.ui.DetailFragment"
+              android:label=" ">
     </fragment>
-    <fragment android:id="@+id/searchFragment" android:name="com.example.githubproject.SearchFragment"
-              android:label="fragment_search" tools:layout="@layout/fragment_search"/>
+
 </navigation>

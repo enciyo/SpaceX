@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:background="@color/black"
+             android:layout_height="match_parent"
+             tools:context=".ui.search.SearchActivity">
+
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:id="@+id/linearlayout"
+                  android:background="@color/black"
+                  android:orientation="horizontal"
+                  android:layout_height="?attr/actionBarSize">
+        <ImageButton
+                android:id="@+id/backButton"
+                android:paddingLeft="10dp"
+                android:src="@drawable/ic_action_navigation_arrow_back_inverted"
+                android:background="@android:color/transparent"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+        />
+
+        <EditText
+                android:id="@+id/searchView"
+                android:paddingLeft="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:hint="Enter flight number"
+                android:inputType="text"
+                android:elevation="20dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
+                android:backgroundTint="@android:color/white"
+        />
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchListView"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+</FrameLayout>

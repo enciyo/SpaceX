@@ -86,7 +86,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
     //SearchView
-    implementation'com.quinny898.library.persistentsearch:library:1.1.0-SNAPSHOT'
+    implementation 'com.quinny898.library.persistentsearch:library:1.1.0-SNAPSHOT'
 
 
 }
