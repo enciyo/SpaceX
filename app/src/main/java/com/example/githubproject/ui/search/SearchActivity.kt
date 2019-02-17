@@ -1,16 +1,36 @@
 package com.example.githubproject.ui.search
 
+import android.annotation.TargetApi
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import androidx.annotation.RequiresApi
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubproject.R
 import com.example.githubproject.data.model.Launches
 import com.example.githubproject.ui.base.BaseActivity
+import com.example.githubproject.util.Extentions
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_search.*
+import org.jetbrains.anko.contentView
 
-class SearchActivity : BaseActivity() {
+class SearchActivity : BaseActivity() ,SearchListener{
+    override fun show() {
+        searchView.isVisible=true
+
+    }
+
+    override fun close() {
+        searchView.clearFocus()
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        searchView.isVisible=false
+    }
 
     lateinit var viewModel: SearchViewModel
     lateinit var adapter: SearchAdapter
@@ -31,9 +51,14 @@ class SearchActivity : BaseActivity() {
 
         viewModel = SearchViewModel(application)
 
+        searchView.requestFocus()
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+
+
         searchView.doAfterTextChanged {
             myText = it.toString()
             if (!it.isNullOrEmpty()) {
+
                 loadData()
             } else {
                 initAdapter()
@@ -68,7 +93,8 @@ class SearchActivity : BaseActivity() {
     }
 
     fun initAdapter() {
-        adapter = SearchAdapter(mutableListOf())
+
+        adapter = SearchAdapter(mutableListOf(),this)
         val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         searchListView.layoutManager = layoutManager
         searchListView.adapter = adapter

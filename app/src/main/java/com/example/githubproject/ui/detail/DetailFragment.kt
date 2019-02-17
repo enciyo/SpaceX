@@ -2,6 +2,7 @@ package com.example.githubproject.ui
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
 import com.bumptech.glide.Glide
 import com.example.githubproject.R
