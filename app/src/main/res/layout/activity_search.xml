@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
              android:background="@color/black"
@@ -25,6 +25,7 @@
         <EditText
                 android:id="@+id/searchView"
                 android:paddingLeft="5dp"
+                android:selectAllOnFocus="true"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
                 android:hint="Enter flight number"
@@ -40,6 +41,13 @@
             android:layout_marginTop="?attr/actionBarSize"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
     </androidx.recyclerview.widget.RecyclerView>
-</FrameLayout>
+    <FrameLayout
+            android:id="@+id/myFrameLayout"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    </FrameLayout>
+
+</RelativeLayout>

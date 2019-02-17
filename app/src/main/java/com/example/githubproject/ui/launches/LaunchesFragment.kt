@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.githubproject.ui.launches.adapters.LaunchesAdapter
+import com.example.githubproject.adapters.LaunchesAdapter
 import com.example.githubproject.ui.base.BaseFragment
 import com.example.githubproject.util.Extentions
 import com.example.githubproject.util.InternetCheck

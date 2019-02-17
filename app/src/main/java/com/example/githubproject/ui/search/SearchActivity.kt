@@ -1,25 +1,19 @@
 package com.example.githubproject.ui.search
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubproject.R
 import com.example.githubproject.data.model.Launches
 import com.example.githubproject.ui.base.BaseActivity
-import com.example.githubproject.ui.launches.adapters.LaunchesAdapter
 import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity : BaseActivity() {
 
     lateinit var viewModel: SearchViewModel
-    lateinit var adapter: LaunchesAdapter
+    lateinit var adapter: SearchAdapter
     lateinit var searchList: List<Launches>
     lateinit var myText: String
 
@@ -74,7 +68,7 @@ class SearchActivity : BaseActivity() {
     }
 
     fun initAdapter() {
-        adapter = LaunchesAdapter(mutableListOf())
+        adapter = SearchAdapter(mutableListOf())
         val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         searchListView.layoutManager = layoutManager
         searchListView.adapter = adapter
