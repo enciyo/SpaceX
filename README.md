@@ -13,3 +13,4 @@
 * Glide
 * MaterialSearch
 * RecyclerView
+* Offline Mode
